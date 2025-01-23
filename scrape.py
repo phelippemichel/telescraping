@@ -34,12 +34,21 @@ def check_and_insert_email(email):
     return f"Email já existe: {email}"
 
 async def main():
-    channel_link = 't.me/vagastibr'
-    emails = await scrape_message(client, channel_link, 200)
-    print()
-    for email in sorted(emails):
-        result = check_and_insert_email(email)
-        print(result)
+    channel_links = [
+        't.me/vagastibr',
+        't.me/vagastiportugal',
+        't.me/ITJOBS_EMPREGOSTI',
+        't.me/channelitjobspe',
+        't.me/CafeinaVagas',
+        't.me/vagas_tech'
+    ]
+    
+    for channel_link in channel_links:
+        print(f"Processando o canal: {channel_link}")
+        emails = await scrape_message(client, channel_link, 50)
+        for email in sorted(emails):
+            result = check_and_insert_email(email)
+            print(result)
 
 with client:
     client.loop.run_until_complete(main())
